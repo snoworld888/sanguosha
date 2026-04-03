@@ -1,0 +1,29 @@
+"""
+GEO 智能优化平台 - 开发配置
+"""
+from pydantic_settings import BaseSettings
+import os
+
+
+class DevSettings(BaseSettings):
+    """开发环境配置"""
+    DEBUG: bool = True
+    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/geo_platform_dev"
+    REDIS_URL: str = "redis://localhost:6379/1"
+    LOG_LEVEL: str = "DEBUG"
+
+
+class TestSettings(BaseSettings):
+    """测试环境配置"""
+    DEBUG: bool = True
+    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/geo_platform_test"
+    REDIS_URL: str = "redis://localhost:6379/2"
+    LOG_LEVEL: str = "DEBUG"
+
+
+class ProdSettings(BaseSettings):
+    """生产环境配置"""
+    DEBUG: bool = False
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql+asyncpg://user:pass@host:5432/geo_platform")
+    REDIS_URL: str = os.getenv("REDIS_URL", "redis://host:6379/0")
+    LOG_LEVEL: str = "INFO"
